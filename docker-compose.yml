@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+    nginx:
+        # image: nginx:stable-alpine
+        build:
+            context: .
+            dockerfile: nginx.Dockerfile
+        depends_on:
+            - php
+            - mysql
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - ./bedrock:/var/www/html:delegated
+    mysql:
+        image: mysql:8.0
+        environment:
+            MYSQL_DATABASE: template_db
+            MYSQL_USER: wp
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: secret
+        volumes:
+            - ./mysql:/var/lib/mysql
+    php:
+        # image: php:8.0-fpm-alpine
+        build:
+            context: .
+            dockerfile: php.Dockerfile
+        volumes:
+            - ./bedrock:/var/www/html:delegated
+    wp:
+        build:
+            context: .
+            dockerfile: php.Dockerfile
+        volumes:
+            - ./bedrock:/var/www/html:delegated
+        entrypoint: ['wp', '--allow-root']
+
+    composer:
+        build:
+            context: .
+            dockerfile: php.Dockerfile
+        volumes:
+            - ./bedrock:/var/www/html:delegated
+        working_dir: /var/www/html
+        depends_on:
+            - php
+        entrypoint: ['composer']
