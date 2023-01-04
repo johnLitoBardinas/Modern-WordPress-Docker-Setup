@@ -28,6 +28,7 @@ services:
         build:
             context: .
             dockerfile: php.Dockerfile
+        tty: true
         volumes:
             - ./bedrock:/var/www/html:delegated
     wp:
@@ -48,3 +49,14 @@ services:
         depends_on:
             - php
         entrypoint: ['composer']
+
+    # acorn:
+    #     build:
+    #         context: .
+    #         dockerfile: php.Dockerfile
+    #     volumes:
+    #         - ./bedrock:/var/www/html:delegated
+    #     working_dir: /var/www/html
+    #     depends_on:
+    #         - php
+    #     entrypoint: ['wp acorn', '--allow-root']
