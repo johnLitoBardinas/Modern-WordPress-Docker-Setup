@@ -6,6 +6,7 @@ services:
         build:
             context: .
             dockerfile: nginx.Dockerfile
+        container_name: ${APP_NAME}-nginx
         depends_on:
             - php
             - mysql
@@ -14,27 +15,40 @@ services:
             - 443:443
         volumes:
             - ./bedrock:/var/www/html:delegated
+            - ./nginx:/var/log/nginx
+
     mysql:
         image: mysql:8.0
+        container_name: ${APP_NAME}-mysql
         environment:
-            MYSQL_DATABASE: template_db
-            MYSQL_USER: wp
-            MYSQL_PASSWORD: secret
-            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_DATABASE: ${DB_NAME}
+            MYSQL_USER: ${DB_USER}
+            MYSQL_PASSWORD: ${DB_USER_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+        restart: always
         volumes:
             - ./mysql:/var/lib/mysql
+
     php:
         # image: php:8.0-fpm-alpine
         build:
             context: .
             dockerfile: php.Dockerfile
+        container_name: ${APP_NAME}-php
+        depends_on:
+            - mysql
         tty: true
         volumes:
             - ./bedrock:/var/www/html:delegated
+
     wp:
         build:
             context: .
             dockerfile: php.Dockerfile
+        container_name: ${APP_NAME}-wp-cli
+        depends_on:
+            - php
+            - mysql
         volumes:
             - ./bedrock:/var/www/html:delegated
         entrypoint: ['wp', '--allow-root']
@@ -43,6 +57,7 @@ services:
         build:
             context: .
             dockerfile: php.Dockerfile
+        container_name: ${APP_NAME}-composer
         volumes:
             - ./bedrock:/var/www/html:delegated
         working_dir: /var/www/html
@@ -50,13 +65,18 @@ services:
             - php
         entrypoint: ['composer']
 
-    # acorn:
-    #     build:
-    #         context: .
-    #         dockerfile: php.Dockerfile
-    #     volumes:
-    #         - ./bedrock:/var/www/html:delegated
-    #     working_dir: /var/www/html
-    #     depends_on:
-    #         - php
-    #     entrypoint: ['wp acorn', '--allow-root']
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: ${APP_NAME}-phpmyadmin
+        volumes:
+            - ./phpmyadmin/phpmyadmin.ini:/usr/local/etc/php/conf.d/phpmyadmin.ini
+        environment:
+            PMA_HOST: "${DB_HOST}"
+            PMA_PORT: 3306
+            MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+        ports:
+            - '8082:80'
+        depends_on:
+            - mysql
+        links:
+            - mysql:mysql

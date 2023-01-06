@@ -13,3 +13,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 # RUN composer require roots/acorn:2.1.2
+# nginx version: nginx/1.22.1
