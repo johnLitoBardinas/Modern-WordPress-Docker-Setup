@@ -1,24 +1,64 @@
 
-# Bedrock + SAGE10 + COMPOSER v2 + WP CLI + ACORN  Docker Setup
+# Modern WordPress Setup
+#### Bedrock, Sage 10, Composer v2, WP CLI, and Acorn Docker setup for local development.
 
 [![Donate](https://img.shields.io/badge/Donation-green?logo=paypal&label=Paypal)](https://www.paypal.me/johnlitob)
 
-Use [BEDROCK](https://roots.io/bedrock/) + [SAGE-10](https://roots.io/sage/) + [ACORN](https://roots.io/acorn/) + [COMPOSER-2+](https://getcomposer.org/) + [WP CLI](https://wp-cli.org/) locally with Docker using [Docker compose](https://docs.docker.com/compose/)
+###### Technologies and Tools Included:
+* [NGINX](https://www.nginx.com/)
+* [PHP-8](https://www.php.net/)
+* [MySQL-8](https://www.mysql.com/)
+* [phpMyAdmin](https://www.phpmyadmin.net/)
+* [BEDROCK](https://roots.io/bedrock/)
+* [SAGE-10](https://roots.io/sage/)
+* [ACORN](https://roots.io/acorn/)
+* [COMPOSER-2](https://getcomposer.org/)
+* [WP CLI](https://wp-cli.org/)
 
-## Contents
-+ PHP 8.0
-+ MySQL 8.0
-+ NGINX 1.22.1
-+ Custom domain and HTTPS support. So you can use for example [https://wordpress-docker.local](https://wordpress-docker.test/) in your local machine.
-+ Custom nginx config in `./nginx`
-+ Custom PHP `php.ini` config in `./config`
-+ Volumes for `nginx`, `bedrock` and `mysql8`
-+ [Bedrock](https://roots.io/bedrock/) - modern development tools, easier configuration, and an improved secured folder structure for WordPress.
-+ [Sage10]()
-+ [Composer version 2+](https://getcomposer.org/)
-+ [WP-CLI](https://wp-cli.org/) - WP-CLI is the command-line interface for WordPress.
+_All of the above are not required for your local machine to be installed. Just install [Docker Desktop](https://www.docker.com/products/docker-desktop/)._
+
+## Requirements:
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+* [MKCERT](https://github.com/FiloSottile/mkcert) </br>
+_for MAC use [HomeBrew](https://brew.sh/)_
+```bash
+# For MAC Installation.
+brew install mkcert
+brew install nss # if you use Firefox
+
+# To confirm the installation.
+mkcert
+```
+
+* [NVM](https://github.com/nvm-sh/nvm) - Needed to proxy the web server.
+
+---
 
 ## Instructions
+
+<details>
+<summary>Root Directory Setup</summary>
+
++ Create a .env file in the root directory using the .env-example file as a example.
+
++ If you have a [BedRock](https://roots.io/bedrock/) already running then replace the ```./bedrock``` folder inside the project.
+</details>
+
+<details>
+<summary>Hosts File Setup</summary>
+
++ For (Mac, Linux) use the ```nano``` text editor.
+```bash
+sudo nano /etc/hosts
+# Edit the hosts file of your machine to serve local website.
+
+# Enter computer password if prompted.
+
+127.0.0.1 wordpress-docker.test www.wordpress-docker.test
+# Add the above statement in the very bottom of the hosts file.
+```
+
+</details>
 
 <details>
  <summary>NGINX Setup</summary>
@@ -33,22 +73,11 @@ brew install nss # if you use Firefox
 ```
 + [NVM](https://github.com/nvm-sh/nvm)
 
-</details>
 
-<details>
- <summary>LOCAL Certificate Setup</summary>
-
-+ [Docker](https://www.docker.com/get-started)
-+ [mkcert](https://github.com/FiloSottile/mkcert) for creating the SSL cert.
-Install mkcert:
-
-```
-brew install mkcert
-brew install nss # if you use Firefox
-```
-+ [NVM](https://github.com/nvm-sh/nvm)
 
 </details>
+
+
 
 <details>
  <summary>Requirements</summary>
