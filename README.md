@@ -164,14 +164,14 @@ Docker Compose will now start all the services for you:
 
 ```shell
 Starting myapp-mysql    ... done
-Starting myapp-composer ... done
-Starting myapp-phpmyadmin ... done
-Starting myapp-wordpress  ... done
-Starting myapp-nginx      ... done
-Starting myapp-mailhog    ... done
+Starting myapp-phpmyadmin    ... done
+Starting myapp-php    ... done
+Starting myapp-nginx    ... done
+Starting myapp-wp-cli    ... done
+Starting myapp-composer    ... done
 ```
 
-🚀 Open [https://myapp.local](https://myapp.local) in your browser
+🚀 Open [https://wordpress-docker.test/](https://wordpress-docker.test/) in your browser
 
 ## PhpMyAdmin
 
@@ -184,49 +184,29 @@ PhpMyAdmin comes installed as a service in docker-compose.
 <details>
  <summary>Tools</summary>
 
-### Update WordPress Core and Composer packages (plugins/themes)
+### Usage Composer inside the container
 
 ```shell
-docker-compose run composer update
+docker-compose run --rm composer {command}
 ```
 
 #### Use WP-CLI
 
 ```shell
-docker exec -it myapp-wordpress bash
+docker-compose run --rm wp {command}
 ```
 
-Login to the container
-
+### Use Acorn
 ```shell
-wp search-replace https://olddomain.com https://newdomain.com --allow-root
-```
-
-Run a wp-cli command
-
-> You can use this command first after you've installed WordPress using Composer as the example above.
-
-### Update plugins and themes from wp-admin?
-
-You can, but I recommend to use Composer for this only. But to enable this edit `./src/config/environments/development.php` (for example to use it in Dev)
-
-```shell
-Config::define('DISALLOW_FILE_EDIT', false);
-Config::define('DISALLOW_FILE_MODS', false);
+docker-compose run --rm wp acorn {command}
 ```
 
 ### Useful Docker Commands
 
-When making changes to the Dockerfile, use:
+Building again container from updated Docker Image.
 
 ```bash
-docker-compose up -d --force-recreate --build
-```
-
-Login to the docker container
-
-```shell
-docker exec -it myapp-wordpress bash
+docker-compose up --build
 ```
 
 Stop
@@ -244,7 +224,7 @@ docker-compose down
 Cleanup
 
 ```shell
-docker-compose rm -v
+docker-compose --rmi=local -v
 ```
 
 Recreate
@@ -258,6 +238,29 @@ Rebuild docker container when Dockerfile has changed
 ```shell
 docker-compose up -d --force-recreate --build
 ```
+</details>
+
+<details>
+<summary>SAGE + ACORN Setup</summary>
+
++ Inside the __```./bedrock```__ directory. Run the following command:
+```bash
+composer require roots/acorn
+```
+
++ Install the __[SAGE-10](https://roots.io/sage/)__ theme using the following command:
+
+```bash
+docker-compose run --rm composer create-project roots/sage {template_name} --working-dir=web/app/themes/
+```
+
++ Verify your __[ACORN](https://roots.io/acorn/)__ Installation by running the following command:
+
+```bash
+docker-compose run --rm wp acorn
+```
+
+
 </details>
 
 <details>
