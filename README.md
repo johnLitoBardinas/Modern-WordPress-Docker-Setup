@@ -42,6 +42,62 @@ mkcert
 + Create a ```.env``` file in the root directory using the ```.env-example``` example file.
 
 + If you have a [BedRock](https://roots.io/bedrock/) already running then replace the ```./bedrock``` folder inside the project.
+
+#### 1. For Docker and the CLI script (Required step)
+
+Copy `.env.example` in the project root to `.env` and edit your preferences.
+
+Example:
+
+```dotenv
+IP=127.0.0.1
+APP_NAME=myapp
+DOMAIN="myapp.local"
+
+DB_HOST=mysql
+DB_NAME=template_db
+DB_USER=admin
+DB_USER_PASSWORD=secret
+DB_ROOT_PASSWORD=secret
+DB_TABLE_PREFIX=wp_
+
+```
+
+#### 2. WordPress (Required step)
+
+Edit `./bedrock/.env.example` to your needs.
+
+Example:
+
+```dotenv
+DB_NAME='template_db'
+DB_USER='admin'
+DB_PASSWORD='secret'
+
+# Optionally, you can use a data source name (DSN)
+# When using a DSN, you can remove the DB_NAME, DB_USER, DB_PASSWORD, and DB_HOST variables
+# DATABASE_URL='mysql://database_user:database_password@database_host:database_port/database_name'
+
+# Optional variables
+DB_HOST='mysql'
+# DB_PREFIX='wp_'
+
+WP_ENV='development'
+WP_HOME='{DOMAIN}'
+WP_SITEURL="${WP_HOME}/wp"
+WP_DEBUG_LOG=/path/to/debug.log
+
+# Generate your keys here: https://roots.io/salts.html
+AUTH_KEY='generateme'
+SECURE_AUTH_KEY='generateme'
+LOGGED_IN_KEY='generateme'
+NONCE_KEY='generateme'
+AUTH_SALT='generateme'
+SECURE_AUTH_SALT='generateme'
+LOGGED_IN_SALT='generateme'
+NONCE_SALT='generateme'
+```
+
 </details>
 
 <details>
@@ -59,97 +115,43 @@ sudo nano /etc/hosts
 # Add the above statement in the very bottom of the hosts file.
 ```
 
++
 </details>
 
 <details>
 <summary>Local Certificate Setup</summary>
 
++ Create a __```certs```__ folder inside the ```./nginx``` folder then __```cd```__ into it to store the local site certificates.
+
 ```bash
 mkcert
 # Verify that the mkcert is available.
+# Usage of mkcert:
+
+#	$ mkcert -install
+#	Install the local CA in the system trust store.
+
+#	$ mkcert example.org
+#	Generate "example.org.pem" and "example.org-key.pem".
+
+#	$ mkcert example.com myapp.dev localhost 127.0.0.1 ::1
+#	Generate "example.com+4.pem" and "example.com+4-key.pem".
+
+#	$ mkcert "*.example.it"
+#	Generate "_wildcard.example.it.pem" and "_wildcard.example.it-key.pem".
+
+#	$ mkcert -uninstall
+#	Uninstall the local CA (but do not delete it).
 
 
-# I
+mkcert {DOMAIN}
+# Replace the {DOMAIN} same with your own .env DOMAIN key.
 
+# If the generation is successfull then 2 *.pem file will be present now.
 
 ````
 
-</details>
-
-
-
-<details>
- <summary>Requirements</summary>
-
-+ [Docker](https://www.docker.com/get-started)
-+ [mkcert](https://github.com/FiloSottile/mkcert) for creating the SSL cert.
-Install mkcert:
-
-```
-brew install mkcert
-brew install nss # if you use Firefox
-```
-+ [NVM](https://github.com/nvm-sh/nvm)
-
-</details>
-
-<details>
- <summary>Setup</summary>
-
- ### Setup Environment variables
-
-Both step 1. and 2. below are required:
-
-#### 1. For Docker and the CLI script (Required step)
-
-Copy `.env.example` in the project root to `.env` and edit your preferences.
-
-Example:
-
-```dotenv
-IP=127.0.0.1
-APP_NAME=myapp
-DOMAIN="myapp.local"
-DB_HOST=mysql
-DB_NAME=myapp
-DB_ROOT_PASSWORD=password
-DB_TABLE_PREFIX=wp_
-```
-
-#### 2. For WordPress (Required step)
-
-Edit `./src/.env.example` to your needs. During the `composer create-project` command described below, an `./src/.env` will be created.
-
-Example:
-
-```dotenv
-DB_NAME='myapp'
-DB_USER='root'
-DB_PASSWORD='password'
-
-# Optionally, you can use a data source name (DSN)
-# When using a DSN, you can remove the DB_NAME, DB_USER, DB_PASSWORD, and DB_HOST variables
-# DATABASE_URL='mysql://database_user:database_password@database_host:database_port/database_name'
-
-# Optional variables
-DB_HOST='mysql'
-# DB_PREFIX='wp_'
-
-WP_ENV='development'
-WP_HOME='https://myapp.local'
-WP_SITEURL="${WP_HOME}/wp"
-WP_DEBUG_LOG=/path/to/debug.log
-
-# Generate your keys here: https://roots.io/salts.html
-AUTH_KEY='generateme'
-SECURE_AUTH_KEY='generateme'
-LOGGED_IN_KEY='generateme'
-NONCE_KEY='generateme'
-AUTH_SALT='generateme'
-SECURE_AUTH_SALT='generateme'
-LOGGED_IN_SALT='generateme'
-NONCE_SALT='generateme'
-```
++ Replace all the __```{DOMAIN}```__ <em>LN: 3, LN: 45</em> with you own __```{DOMAIN}```__ from your __.env__ file.
 
 </details>
 

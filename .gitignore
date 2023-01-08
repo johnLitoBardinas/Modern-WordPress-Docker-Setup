@@ -25,3 +25,4 @@ Homestead.json
 mysql
 nginx/*.log
 nginx/certs/**
+nginx/default.conf
