@@ -39,11 +39,9 @@ mkcert
 <details>
 <summary>Root Directory Setup</summary>
 
-+ Create a ```.env``` file in the root directory using the ```.env-example``` example file.
-
 + If you have a [BedRock](https://roots.io/bedrock/) already running then replace the ```./bedrock``` folder inside the project.
 
-#### 1. For Docker and the CLI script (Required step)
+#### 1. For Docker and the CLI script.
 
 Copy `.env.example` in the project root to `.env` and edit your preferences.
 
@@ -63,7 +61,7 @@ DB_TABLE_PREFIX=wp_
 
 ```
 
-#### 2. WordPress (Required step)
+#### 2. WordPress Bedrock
 
 Edit `./bedrock/.env.example` to your needs.
 
@@ -151,95 +149,7 @@ mkcert {DOMAIN}
 
 ````
 
-+ Replace all the __```{DOMAIN}```__ <em>LN: 3, LN: 45</em> with you own __```{DOMAIN}```__ from your __.env__ file.
-
-</details>
-
-<details>
- <summary>Option 1). Use HTTPS with a custom domain</summary>
-
-1. Create a SSL cert:
-
-```shell
-cd cli
-./create-cert.sh
-```
-
-This script will create a locally-trusted development certificates. It requires no configuration.
-
-> mkcert needs to be installed like described in Requirements. Read more for [Windows](https://github.com/FiloSottile/mkcert#windows) and [Linux](https://github.com/FiloSottile/mkcert#linux)
-
-1b. Make sure your `/etc/hosts` file has a record for used domains.
-
-```
-sudo nano /etc/hosts
-```
-
-Add your selected domain like this:
-
-```
-127.0.0.1 myapp.local
-```
-
-2. Continue on the Install step below
-
-</details>
-
-<details>
- <summary>Option 2). Use a simple config</summary>
-
-1. Edit `nginx/default.conf.conf` to use this simpler config (without using a cert and HTTPS)
-
-```shell
-server {
-    listen 80;
-
-    root /var/www/html/web;
-    index index.php;
-
-    access_log /var/log/nginx/access.log;
-    error_log /var/log/nginx/error.log;
-
-    client_max_body_size 100M;
-
-    location / {
-        try_files $uri $uri/ /index.php?$args;
-    }
-
-    location ~ \.php$ {
-        try_files $uri =404;
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass wordpress:9000;
-        fastcgi_index index.php;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param PATH_INFO $fastcgi_path_info;
-    }
-}
-
-```
-
-2. Edit the nginx service in `docker-compose.yml` to use port 80. 443 is not needed now.
-
-```shell
-  nginx:
-    image: nginx:latest
-    container_name: ${APP_NAME}-nginx
-    ports:
-      - '80:80'
-
-```
-
-3. Continue on the Install step below
-
-</details>
-
-<details>
- <summary>Install</summary>
-
-```shell
-docker-compose run composer create-project
-```
++ Using the __./nginx/default-example.conf__ create a __```./nginx/default.conf```__ file and populate the necessary fields. Replace __```{DOMAIN}```__ to your own domain name.
 
 </details>
 
@@ -268,12 +178,6 @@ Starting myapp-mailhog    ... done
 PhpMyAdmin comes installed as a service in docker-compose.
 
 🚀 Open [http://127.0.0.1:8082/](http://127.0.0.1:8082/) in your browser
-
-## MailHog
-
-MailHog comes installed as a service in docker-compose.
-
-🚀 Open [http://0.0.0.0:8025/](http://0.0.0.0:8025/) in your browser
 
 </details>
 
