@@ -39,7 +39,7 @@ mkcert
 <details>
 <summary>Root Directory Setup</summary>
 
-+ Create a .env file in the root directory using the .env-example file as a example.
++ Create a ```.env``` file in the root directory using the ```.env-example``` example file.
 
 + If you have a [BedRock](https://roots.io/bedrock/) already running then replace the ```./bedrock``` folder inside the project.
 </details>
@@ -47,33 +47,32 @@ mkcert
 <details>
 <summary>Hosts File Setup</summary>
 
-+ For (Mac, Linux) use the ```nano``` text editor.
++ For __(Mac, Linux)__ use the ```nano``` text editor.
 ```bash
 sudo nano /etc/hosts
 # Edit the hosts file of your machine to serve local website.
 
 # Enter computer password if prompted.
 
-127.0.0.1 wordpress-docker.test www.wordpress-docker.test
+127.0.0.1 {DOMAIN} www.{DOMAIN}
+# Replace the {DOMAIN} same with your own .env DOMAIN key.
 # Add the above statement in the very bottom of the hosts file.
 ```
 
 </details>
 
 <details>
- <summary>NGINX Setup</summary>
+<summary>Local Certificate Setup</summary>
 
-+ [Docker](https://www.docker.com/get-started)
-+ [mkcert](https://github.com/FiloSottile/mkcert) for creating the SSL cert.
-Install mkcert:
-
-```
-brew install mkcert
-brew install nss # if you use Firefox
-```
-+ [NVM](https://github.com/nvm-sh/nvm)
+```bash
+mkcert
+# Verify that the mkcert is available.
 
 
+# I
+
+
+````
 
 </details>
 
