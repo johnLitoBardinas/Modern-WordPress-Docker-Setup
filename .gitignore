@@ -22,7 +22,10 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 
+# Local Development
 mysql
 nginx/*.log
 nginx/certs/**
 nginx/default.conf
+bedrock_old
+bedrock/web/app/cache
