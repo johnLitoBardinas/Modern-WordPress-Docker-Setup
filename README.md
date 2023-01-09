@@ -151,6 +151,9 @@ mkcert {DOMAIN}
 
 + Using the __./nginx/default-example.conf__ create a __```./nginx/default.conf```__ file and populate the necessary fields. Replace __```{DOMAIN}```__ to your own domain name.
 
++ __```{DOMAIN}```__ variable can be found /in the following Line Number: 3, 45, 83, 84.
+
+
 </details>
 
 <details>
@@ -171,11 +174,11 @@ Starting myapp-wp-cli    ... done
 Starting myapp-composer    ... done
 ```
 
-🚀 Open [https://wordpress-docker.test/](https://wordpress-docker.test/) in your browser
+🚀 Open [https://{DOMAIN}](https://{DOMAIN}) in your browser
 
 ## PhpMyAdmin
 
-PhpMyAdmin comes installed as a service in docker-compose.
+To us phpMyAdin just visit the following URL.
 
 🚀 Open [http://127.0.0.1:8082/](http://127.0.0.1:8082/) in your browser
 
