@@ -39,11 +39,11 @@ mkcert
 <details>
 <summary>Root Directory Setup</summary>
 
-+ If you have a [BedRock](https://roots.io/bedrock/) already running then replace the ```./bedrock``` folder inside the project.
++ If you have a [BedRock](https://roots.io/bedrock/) already running then replace the ```./bedrock``` folder inside the project.
 
 #### 1. For Docker and the CLI script.
 
-Copy `.env.example` in the project root to `.env` and edit your preferences.
+Copy `.env.example` in the project root to `.env` and edit by your preferences.
 
 Example:
 

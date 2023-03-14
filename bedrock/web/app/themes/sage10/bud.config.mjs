@@ -16,10 +16,18 @@ export default async (app) => {
       editor: ["@scripts/editor", "@styles/editor"],
     })
 
+    .provide({
+      jquery: ["jQuery", "$"],
+    })
+
     /**
      * Directory contents to be included in the compilation
      */
     .assets(["images"])
+
+    .tap(app => {
+      app.cdn.setAllowedUris(["https://fonts.ivystreet.com.au/"])
+    })
 
     /**
      * Matched files trigger a page reload when modified
@@ -39,7 +47,7 @@ export default async (app) => {
     /**
      * URI of the `public` directory
      */
-    .setPublicPath("/app/themes/sage/public/")
+    .setPublicPath("/app/themes/sage10/public/")
 
     /**
      * Generate WordPress `theme.json`
