@@ -1,5 +1,8 @@
 version: '3.9'
 
+networks:
+    docker-setup-network:
+
 services:
     nginx:
         # image: nginx:stable-alpine
@@ -16,6 +19,8 @@ services:
         volumes:
             - ./bedrock:/var/www/html:delegated
             - ./nginx:/var/log/nginx
+        networks:
+            - docker-setup-network
 
     mysql:
         image: mysql:8.0
@@ -26,8 +31,12 @@ services:
             MYSQL_PASSWORD: ${DB_USER_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
         restart: always
+        ports:
+            - 3306:3306
         volumes:
             - ./mysql:/var/lib/mysql
+        networks:
+            - docker-setup-network
 
     php:
         # image: php:8.0-fpm-alpine
@@ -40,6 +49,8 @@ services:
         tty: true
         volumes:
             - ./bedrock:/var/www/html:delegated
+        networks:
+            - docker-setup-network
 
     wp:
         build:
@@ -80,3 +91,5 @@ services:
             - mysql
         links:
             - mysql:mysql
+        networks:
+            - docker-setup-network
