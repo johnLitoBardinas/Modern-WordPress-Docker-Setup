@@ -37,6 +37,11 @@ services:
             - ./mysql:/var/lib/mysql
         networks:
             - docker-setup-network
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
 
     php:
         # image: php:8.0-fpm-alpine
