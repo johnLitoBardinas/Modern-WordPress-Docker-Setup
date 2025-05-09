@@ -279,4 +279,8 @@ docker-compose run --rm wp acorn
 
 ----
 
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
 _By:_ [JLBardinas](https://www.jlbardinas.com)
